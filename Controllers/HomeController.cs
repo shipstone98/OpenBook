@@ -39,7 +39,7 @@ namespace Shipstone.OpenBook.Controllers
             return this.View(new ProfileViewModel
             {
                 IsCurrentUser = true,
-                Posts = (await PostDao.RetrieveAllAsync(this._Context, user)).ViewModel,
+                Posts = (await PostDao.RetrieveAllAsync(this._Context, user, true)).ViewModel,
                 User = user
             });
         }

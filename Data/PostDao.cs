@@ -74,7 +74,8 @@ namespace Shipstone.OpenBook.Data
 
         public static async Task<StatusViewModel<List<Post>>> RetrieveAllAsync(
             Context context,
-            User user
+            User user,
+            bool includeFollowees = false
         )
         {
             if (user is null)
@@ -85,12 +86,30 @@ namespace Shipstone.OpenBook.Data
                 };
             }
 
-            List<Post> posts = await context.Posts
-                .Include(p => p.Creator)
-                .Where(p => p.CreatorId == user.Id)
-                .OrderByDescending(p => p.CreatedUtc)
-                .AsNoTracking()
-                .ToListAsync();
+            List<Post> posts;
+
+            if (includeFollowees)
+            {
+                ICollection<int> followeeIds = (await FollowingDao.RetrieveFolloweesAsync(context, user.Id)).ViewModel;
+                followeeIds.Add(user.Id);
+                
+                posts = await context.Posts
+                    .Include(p => p.Creator)
+                    .Where(p => followeeIds.Contains(p.CreatorId))
+                    .OrderByDescending(p => p.CreatedUtc)
+                    .AsNoTracking()
+                    .ToListAsync();
+            }
+
+            else
+            {
+                posts = await context.Posts
+                    .Include(p => p.Creator)
+                    .Where(p => p.CreatorId == user.Id)
+                    .OrderByDescending(p => p.CreatedUtc)
+                    .AsNoTracking()
+                    .ToListAsync();
+            }
 
             return new StatusViewModel<List<Post>>
             {

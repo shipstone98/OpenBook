@@ -28,7 +28,7 @@
                     <td>
                         <a asp-controller="Post" asp-action="Details" asp-route-id="@post.Id">Details</a>
 
-                        @if (this.Model.IsCurrentUser)
+                        @if (post.CreatorId == this.Model.User.Id)
                         {
                             @: | 
                             @:<a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id">Edit</a> | 
