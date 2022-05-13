@@ -1,0 +1,30 @@
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> _SignInManager
+@inject UserManager<User> _UserManager
+
+<ul class="navbar-nav">
+    @if (this._SignInManager.IsSignedIn(this.User))
+    {
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-dark" asp-controller="User" asp-action="Index" title="Profile">Hello, @this._UserManager.GetUserName(this.User)!</a>
+        </li>
+
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@this.Context.Request.Path">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Log out</button>
+            </form>
+        </li>
+    }
+
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-controller="Account" asp-action="Login">Log in</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="register" asp-controller="User" asp-action="Create">Create account</a>
+        </li>
+    }
+</ul>
