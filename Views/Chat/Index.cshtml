@@ -1,0 +1,35 @@
+@{
+    this.ViewData["Title"] = "Public chatroom";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@this.ViewData["Title"]</h1>
+
+    <hr />
+    
+    <div class="row">
+        <section>
+            <form>
+                <div class="form-floating">
+                    <input id="messageInput" class="form-control" aria-required="true" />
+                    <label class="form-label">Message</label>
+                </div>
+
+                <div>
+                    <button id="sendButton" type="submit" class="w-100 btn btn-lg btn-primary">Send</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <div class="row">
+        <ul id="messageList" class="messageList"></ul>
+    </div>
+</div>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

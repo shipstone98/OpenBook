@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using Shipstone.OpenBook.Data;
+using Shipstone.OpenBook.Hubs;
 using Shipstone.OpenBook.Models;
 
 namespace Shipstone.OpenBook
@@ -60,6 +61,7 @@ namespace Shipstone.OpenBook
             });
 
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -89,6 +91,8 @@ namespace Shipstone.OpenBook
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            
+            app.MapHub<PublicChatHub>("/Hubs/Public");
 
             app.Run();
             return 0;

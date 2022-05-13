@@ -16,3 +16,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+ul.messageList {
+  list-style-type: none;
+}
+
+ul.messageList li {
+  text-align: right;
+  width: 100%;
+}
