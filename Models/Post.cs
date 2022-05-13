@@ -1,8 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+using Shipstone.OpenBook.Converters;
 
 namespace Shipstone.OpenBook.Models
 {
+    [JsonConverter(typeof (PostConverter))]
     public class Post
     {
         [Required]
