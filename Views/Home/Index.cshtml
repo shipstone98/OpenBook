@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ProfileViewModel
+@{
     this.ViewData["Title"] = "Home Page";
 }
 
@@ -7,5 +8,41 @@
 
     <hr />
     
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@this.Html.DisplayNameFor(m => m.Posts[0].Created)</th>
+                <th>Creator</th>
+                <th>@this.Html.DisplayNameFor(m => m.Posts[0].Content)</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (Post post in this.Model.Posts)
+            {
+                <tr>
+                    <td>@this.Html.DisplayFor(m => post.Created)</td>
+                    <td><a asp-controller="Profile" asp-action="Index" asp-route-userName="@post.Creator.UserName">@this.Html.DisplayFor(m => post.Creator.UserName)</a></td>
+                    <td>@this.Html.DisplayFor(m => post.Content)</td>
+                    <td>
+                        <a asp-controller="Post" asp-action="Details" asp-route-id="@post.Id">Details</a>
+
+                        @if (this.Model.IsCurrentUser)
+                        {
+                            @: | 
+                            @:<a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id">Edit</a> | 
+                            @:<a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (this.Model.Posts.Count == 0)
+    {
+        <br />
+        <p>There are no posts to show.</p>
+    }
 </div>
