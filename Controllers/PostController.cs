@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,10 +32,12 @@ namespace Shipstone.OpenBook.Controllers
         }
 
         [ActionName("Create")]
+        [Authorize]
         [HttpGet]
         public IActionResult Create() => this.View();
 
         [ActionName("Create")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(Post model)
         {
