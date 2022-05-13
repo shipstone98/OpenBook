@@ -88,6 +88,7 @@ namespace Shipstone.OpenBook.Data
             List<Post> posts = await context.Posts
                 .Include(p => p.Creator)
                 .Where(p => p.CreatorId == user.Id)
+                .OrderByDescending(p => p.CreatedUtc)
                 .AsNoTracking()
                 .ToListAsync();
 
