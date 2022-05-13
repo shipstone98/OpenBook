@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -14,6 +15,7 @@ namespace Shipstone.OpenBook.Controllers
         public HomeController(ILogger<HomeController> logger) =>
             this._Logger = logger;
 
+        [Authorize]
         public IActionResult Index() => this.View();
 
         public IActionResult Privacy() => this.View();
