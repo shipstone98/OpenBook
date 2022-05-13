@@ -18,7 +18,6 @@ namespace Shipstone.OpenBook.Controllers
         private readonly Context _Context;
         private readonly ILogger<PostController> _Logger;
         private readonly UserManager<User> _UserManager;
-        private readonly IUserStore<User> _UserStore;
 
         public PostController(
             ILogger<PostController> logger,
