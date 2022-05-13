@@ -6,6 +6,23 @@
 <div class="text-center">
     <h1 class="display-4">@this.ViewData["Title"]</h1>
 
+    @if (!this.Model.IsCurrentUser)
+    {
+        String followAction = this.Model.IsFollowing ? "Unfollow" : "Follow";
+
+        <br />
+        
+        <div class="row">
+            <section>
+                <form id="account" asp-controller="Following" asp-action="@followAction" asp-route-userName="@this.Model.User.UserName" asp-route-returnUrl="@this.Context.Request.Path" method="post">
+                    <div>
+                        <button type="submit" class="w-100 btn btn-lg btn-primary">@followAction</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    }
+
     <hr />
     
     <table class="table">

@@ -36,7 +36,7 @@ namespace Shipstone.OpenBook.Controllers
         public async Task<IActionResult> IndexAsync(String userName)
         {
             User user;
-            bool isCurrentUser;
+            bool isCurrentUser, isFollowing = false;
 
             if (userName is null)
             {
@@ -60,12 +60,36 @@ namespace Shipstone.OpenBook.Controllers
                     return this.NotFound();
                 }
 
-                isCurrentUser = !(currentUser is null) && currentUser.Id == user.Id;
+                if (currentUser is null)
+                {
+                    isCurrentUser = false;
+                }
+
+                else
+                {
+                    if (currentUser.Id == user.Id)
+                    {
+                        isCurrentUser = true;
+                    }
+
+                    else
+                    {
+                        StatusViewModel<Following> following = await FollowingDao.RetrieveAsync(
+                            this._Context,
+                            currentUser.Id,
+                            user.Id
+                        );
+
+                        isCurrentUser = false;
+                        isFollowing = following.StatusCode == HttpStatusCode.OK;
+                    }
+                }
             }
 
             return this.View(new ProfileViewModel
             {
                 IsCurrentUser = isCurrentUser,
+                IsFollowing = isFollowing,
                 Posts = (await PostDao.RetrieveAllAsync(this._Context, user)).ViewModel,
                 User = user
             });
