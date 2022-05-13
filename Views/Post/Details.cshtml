@@ -1,0 +1,43 @@
+@model PostViewModel
+@{
+    const int MAX_LENGTH = 16;
+    String title = this.Model.Post.Content;
+
+    if (title.Length > MAX_LENGTH)
+    {
+        title = title.Substring(0, MAX_LENGTH - 3) + "...";
+    }
+
+    this.ViewData["Title"] = title;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Post #@this.Model.Post.Id</h1>
+
+    <hr />
+    
+    <dl class="row">
+        <dt class="col-sm-2">
+            @this.Html.DisplayNameFor(m => m.Post.Created)
+        </dt>
+        <dt class="col-sm-10">
+            @this.Html.DisplayFor(m => m.Post.Created)
+        </dt>
+        <dt class="col-sm-2">
+            Creator
+        </dt>
+        <dt class="col-sm-10">
+            @this.Html.DisplayFor(m => m.Post.Creator.UserName)
+        </dt>
+    </dl>
+
+    <br />
+
+    <p>@this.Model.Post.Content</p>
+    
+    @if (this.Model.IsCreator)
+    {
+        @:<a asp-controller="Post" asp-action="Update" asp-route-id="@this.Model.Post.Id">Edit</a> |
+        @:<a asp-controller="Post" asp-action="Delete" asp-route-id="@this.Model.Post.Id">Delete</a>
+    }
+</div>
